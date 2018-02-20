@@ -25,8 +25,9 @@ namespace FormsServices.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public object Post([FromBody]string value)
         {
+            return value;
         }
 
         // PUT api/values/5
