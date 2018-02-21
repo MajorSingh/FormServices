@@ -14,8 +14,21 @@ namespace FormsServices.Controllers
         // GET: api/FormData
         [HttpGet]
         public IEnumerable<string> Get()
+
         {
-            return new string[] { "value1", "value2" };
+
+            string vpath="empty";
+            List<string> array = new List<string>();
+            array.Add("item 00001");
+            try
+            {
+                vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                array.Add(vpath);
+            }catch(Exception ex)
+            {
+                array.Add(ex.ToString());
+            }
+            return array;
         }
 
         // GET: api/FormData/5
@@ -42,6 +55,14 @@ namespace FormsServices.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        private void sendEmail(object value)
+        {
+
+            System.Net.Mail.MailMessage mailmessage = new System.Net.Mail.MailMessage();
+          
+
         }
     }
 }
