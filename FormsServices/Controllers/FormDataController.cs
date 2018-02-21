@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FormsServices.Controllers
 {
     [Produces("application/json")]
-    [Route("api/FormData")]
+    [Route("api/[controller]")]
     public class FormDataController : Controller
     {
         // GET: api/FormData
