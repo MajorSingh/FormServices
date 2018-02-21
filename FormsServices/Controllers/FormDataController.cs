@@ -23,7 +23,7 @@ namespace FormsServices.Controllers
             try
             {
                 vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string filename = string.Format("\\datafile {0}.json", DateTime.Now.ToLongTimeString());
+                string filename = string.Format("\\datafile-{0}-{1}.json",DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());
                 vpath += filename;
                 array.Add(vpath);
             }catch(Exception ex)
