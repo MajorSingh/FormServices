@@ -23,6 +23,8 @@ namespace FormsServices.Controllers
             try
             {
                 vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string filename = string.Format("\\datafile {0}.json", DateTime.Now.ToLongTimeString());
+                vpath += filename;
                 array.Add(vpath);
             }catch(Exception ex)
             {
@@ -42,6 +44,19 @@ namespace FormsServices.Controllers
         [HttpPost]
         public object Post([FromBody]object value)
         {
+            JsonResult jr = new JsonResult(value);
+            string vpath = string.Empty;
+            try
+            {
+                vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string filename = string.Format("datafile {0}.json", DateTime.Now.ToString());
+
+            }
+            catch (Exception ex)
+            {
+
+                Response.StatusCode = 401;
+            }
             return value;
         }
         
