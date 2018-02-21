@@ -17,13 +17,19 @@ namespace FormsServices.Controllers
 
         {
 
+            
+
             string vpath="empty";
             List<string> array = new List<string>();
             array.Add("item 00001");
             try
             {
-                vpath = FName();
-                array.Add(vpath);
+                vpath = createFolder("FormsData");
+
+               IEnumerable<string> files= System.IO.Directory.EnumerateFiles(vpath);
+                foreach(string file in files)
+                array.Add(file);
+
             }catch(Exception ex)
             {
                 array.Add(ex.ToString());
@@ -44,9 +50,10 @@ namespace FormsServices.Controllers
         {
            
             string vpath = string.Empty;
+            vpath = createFolder("FormsData");
             try
             {
-                vpath = FName();
+                vpath = FName(vpath);
                 System.IO.StreamWriter f = System.IO.File.CreateText(vpath);
                 f.WriteLine(value);
                 f.Dispose();
@@ -80,7 +87,7 @@ namespace FormsServices.Controllers
 
         }
 
-        private string FName()
+        private string FName(string path)
         {
             string vpath = string.Empty;
 
@@ -88,12 +95,31 @@ namespace FormsServices.Controllers
 
             do
             {
-                vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                vpath = path;
 
                 string filename = string.Format("\\datafile-{0}-{1}{2}.json", DateTime.Now.ToShortDateString().Replace("/", ""), DateTime.Now.ToLongTimeString().Replace(":", ""), DateTime.Now.Millisecond.ToString());
                 vpath += filename;
             } while (System.IO.File.Exists(vpath));
 
+            return vpath;
+
+        }
+
+        private string createFolder(string folderName)
+        {
+            string vpath = string.Empty;
+            try
+            {
+                vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                vpath = string.Format("{0}\\{1}",vpath, folderName);
+                if (!System.IO.Directory.Exists(vpath))
+                {
+                    System.IO.Directory.CreateDirectory(vpath);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
             return vpath;
         }
     }
