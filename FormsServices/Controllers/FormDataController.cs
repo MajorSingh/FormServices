@@ -26,9 +26,9 @@ namespace FormsServices.Controllers
             {
                 vpath = createFolder("FormsData");
 
-               IEnumerable<string> files= System.IO.Directory.EnumerateFiles(vpath);
+               IEnumerable<string> files= System.IO.Directory.EnumerateFileSystemEntries(vpath);
                 foreach(string file in files)
-                array.Add(file);
+                array.Add(file.Replace(vpath + "\\",""));
 
             }catch(Exception ex)
             {
@@ -39,9 +39,18 @@ namespace FormsServices.Controllers
 
         // GET: api/FormData/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public void Get(string id)
         {
-            return "value";
+            string vpath = createFolder("FormsData");
+
+            vpath = string.Format("{0}\\{1}", vpath, id);
+
+           byte[] buffer = System.IO.File.ReadAllBytes(vpath);
+
+            Response.ContentLength=buffer.Length;
+            Response.ContentType = "application/json";
+            Response.Body.Write(buffer, 0, buffer.Length);
+            
         }
         
         // POST: api/FormData
