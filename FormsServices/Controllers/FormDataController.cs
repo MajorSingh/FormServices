@@ -106,7 +106,7 @@ namespace FormsServices.Controllers
             {
                 vpath = path;
 
-                string filename = string.Format("\\datafile-{0}-{1}{2}.json", DateTime.Now.ToShortDateString().Replace("/", ""), string.Format("{0}{1}{2}",DateTime.Now.Hour,DateTime.Now.Minute,DateTime.Now.Second), DateTime.Now.Millisecond.ToString());
+                string filename = string.Format("\\datafile-{0}-{1}{2}.json", DateTime.Now.ToShortDateString().Replace("/", ""), string.Format("{0}{1}{2}",DateTime.Now.Hour,DateTime.Now.Minute,DateTime.Now.Second), DateTime.Now.Millisecond.ToString().Replace(" ",""));
                 vpath += filename;
             } while (System.IO.File.Exists(vpath));
 
