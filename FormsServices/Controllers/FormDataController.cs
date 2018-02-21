@@ -22,9 +22,7 @@ namespace FormsServices.Controllers
             array.Add("item 00001");
             try
             {
-                vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string filename = string.Format("\\datafile-{0}-{1}.json",DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());
-                vpath += filename;
+                vpath = FName();
                 array.Add(vpath);
             }catch(Exception ex)
             {
@@ -44,18 +42,20 @@ namespace FormsServices.Controllers
         [HttpPost]
         public object Post([FromBody]object value)
         {
-            JsonResult jr = new JsonResult(value);
+           
             string vpath = string.Empty;
             try
             {
-                vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string filename = string.Format("datafile {0}.json", DateTime.Now.ToString());
+                vpath = FName();
+                System.IO.StreamWriter f = System.IO.File.CreateText(vpath);
+                f.WriteLine(value);
+                f.Dispose();
 
             }
             catch (Exception ex)
             {
 
-                Response.StatusCode = 401;
+                return new string[] { ex.ToString() };
             }
             return value;
         }
@@ -78,6 +78,23 @@ namespace FormsServices.Controllers
             System.Net.Mail.MailMessage mailmessage = new System.Net.Mail.MailMessage();
           
 
+        }
+
+        private string FName()
+        {
+            string vpath = string.Empty;
+
+
+
+            do
+            {
+                vpath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+                string filename = string.Format("\\datafile-{0}-{1}{2}.json", DateTime.Now.ToShortDateString().Replace("/", ""), DateTime.Now.ToLongTimeString().Replace(":", ""), DateTime.Now.Millisecond.ToString());
+                vpath += filename;
+            } while (System.IO.File.Exists(vpath));
+
+            return vpath;
         }
     }
 }
